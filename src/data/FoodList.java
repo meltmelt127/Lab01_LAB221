@@ -12,6 +12,8 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.StringTokenizer;
 import method.Utils;
 
@@ -120,6 +122,14 @@ public class FoodList extends ArrayList<Food>{
     }
     
     public void printFood() {
-       
+        Collections.sort(this, new Comparator<Food>() {
+            @Override
+            public int compare(Food o1, Food o2) {
+                return (int) (o1.getExpiredDate().getTime() - o2.getExpiredDate().getTime());
+            }
+        } );
+        for (Food food : this) {
+            System.out.println(food);
+        }
     }
 }
