@@ -1,3 +1,4 @@
-F001, Tomato, 1, Vegetables, floor1, 31/09/2021
-F001, Apple, 2, Fruits, floor1, 25/09/2021
-F001, Beef, 1, Meat, floor3, 20/09/2021
+F002, BEEF, 1, Meat, floor3, 2021-10-10
+F001, TOMATO, 1, Vegetables, floor1, 2021-09-30
+F003, APPLE, 2, Fruits, floor1, 2021-09-25
+F004, ORANGE, 2, Fruits, floor1, 2020-10-30

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package method;
+package UI;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -29,18 +29,16 @@ public class Menu extends ArrayList{
     public static int getChoice(String message) {
         int result = 0;
         Scanner sc = new Scanner(System.in);
-        boolean check = true;
         do {
             try {
                 System.out.print(message);
                 result = Integer.parseInt(sc.nextLine());
                 if (result > 0 && result < 6) 
-                    check = false;
+                    return result;
                 else System.out.println("Please input an integer from 1 to 5!");
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Please input an integer from 1 to 5!");
             }
-        } while (check);
-        return result;
+        } while (true);
     }
 }

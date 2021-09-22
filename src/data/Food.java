@@ -5,7 +5,7 @@
  */
 package data;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Food {
     private int weight;
     private String type;
     private String place;
-    private Date expiredDate;
+    private LocalDate expiredDate;
 
     public Food() {
     }
@@ -26,7 +26,7 @@ public class Food {
         this.id = id;
     }
 
-    public Food(String id, String name, int weight, String type, String place, Date expiredDate) {
+    public Food(String id, String name, int weight, String type, String place, LocalDate expiredDate) {
         this.id = id;
         this.name = name;
         this.weight = weight;
@@ -71,11 +71,11 @@ public class Food {
         this.place = place;
     }
 
-    public Date getExpiredDate() {
+    public LocalDate getExpiredDate() {
         return expiredDate;
     }
 
-    public void setExpiredDate(Date expiredDate) {
+    public void setExpiredDate(LocalDate expiredDate) {
         this.expiredDate = expiredDate;
     }
     

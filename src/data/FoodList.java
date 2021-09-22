@@ -5,119 +5,68 @@
  */
 package data;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.StringTokenizer;
-import method.Utils;
+import utils.InputUtils;
 
 /**
  *
  * @author Admin
  */
-public class FoodList extends ArrayList<Food>{
-    public void addFromFile(String fName) {
-        try {
-            File f = new File(fName);
-            if (!f.exists())
-                return;
-            FileReader fr = new FileReader(f);
-            BufferedReader bf = new BufferedReader(fr);
-            String details;
-            while ((details = bf.readLine()) != null) {
-                StringTokenizer stk = new StringTokenizer(details, ",");
-                String id = stk.nextToken().toUpperCase();
-                String name = stk.nextToken().toUpperCase();
-                int weight= Integer.parseInt(stk.nextToken());
-                String type = stk.nextToken();
-                String place = stk.nextToken();
-                Date date = Date.valueOf(stk.nextToken());
-            }
-            bf.close(); fr.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }   
-    }
-    
-    public void saveToFile (String fName) {
-        if (this.size() == 0) {
-            System.out.println("Empty list");
-            return;
-        }
-        try {
-            File f = new File(fName);
-            FileWriter fw = new FileWriter(f);
-            PrintWriter pw = new PrintWriter(fw);
-            for (Food food : this) 
-                pw.println(food.toString());
-            pw.close(); fw.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-    
-    private int find(String id) {
-        for (int i = 0; i < this.size(); i++)
-            if (this.get(i).getId().equals(id))
-                return i;
-        return -1;
-    }
-    
+public class FoodList extends ArrayList<Food>{  
     public void addFood() {
-        String nId, nName, nType, nPlace;
-        int nWeight;
-        Date nExDate;
-        int pos;
-        boolean con = true;
+        String id, name, type, place;
+        int weight;
+        LocalDate expiredDate;
+        int position;
+        boolean isContinue;
         do {
             do {
-                nId = Utils.getString("Input new ID: ").toUpperCase();
-                pos = find(nId);
-                if (pos >= 0)
+                id = InputUtils.getString("Input ID: ").toUpperCase();
+                position = this.indexOf(new Food(id));
+                if (position >= 0)
                     System.out.println("The ID is duplicated.");
-            } while (pos >= 0);
-            nName = Utils.getString("Input new Name: ").toUpperCase();
-            nWeight = Utils.getPosInt("Input new Weight: ");
-            nType = Utils.getString("Input new Type: ");
-            nPlace = Utils.getString("Input new Place: ");
-            nExDate = Utils.getDate();
-            this.add(new Food(nId, nName, nWeight, nType, nPlace, nExDate));
+            } while (position >= 0);
+            name = InputUtils.getString("Input Name: ").toUpperCase();
+            weight = InputUtils.getPositiveInteger("Input Weight: ");
+            type = InputUtils.getString("Input Type: ");
+            place = InputUtils.getString("Input Place: ");
+            expiredDate = InputUtils.getDate();
+            this.add(new Food(id, name, weight, type, place, expiredDate));
             System.out.println("New Food has been added.");
-            con = Utils.getBool("Do you want to add another food? (Y/N): ");
-        } while (con);
+            isContinue = InputUtils.getBool("Do you want to add another food? (Y/N): ");
+        } while (isContinue);
     }
     
     public void searchFood() {
         String name; 
-        boolean con = true, check; 
+        boolean isContinue, check; 
         do {
-            name = Utils.getString("Input food name which will be searched: ").toUpperCase();
+            name = InputUtils.getString("Input food name which will be searched: ").toUpperCase();
             check = false;
             for (Food food : this) 
-                if (name.equals(food.getName())) {
+                if (food.getName().contains(name)) {
                     check = true;
-                    System.out.println(food.toString());
+                    System.out.println(food);
                 }
             if (!check)
                 System.out.println("This food does not exist");
-            con = Utils.getBool("Do you want to search another food? (Y/N): ");
-        } while (con);
+            isContinue = InputUtils.getBool("Do you want to search another food? (Y/N): ");
+        } while (isContinue);
     }
     
     public void removeFood() {
-        String id = Utils.getString("Input food id which will be removed: ").toUpperCase();
-        int pos = find(id);
-        if (pos < 0) 
+        String id = InputUtils.getString("Input food id which will be removed: ").toUpperCase();
+        int position = this.indexOf(new Food(id));
+        if (position < 0) 
             System.out.println("Not found!");
         else {
-            this.remove(pos);
-            System.out.println("Food " + id + " was removed.");
+            if (InputUtils.getBool("Are you sure you want to remove food " + id + "? (Y/N): ")) {
+                this.remove(position);
+                System.out.println("Food " + id + " was removed.");
+            } else System.out.println("Remove failed.");
         }
     }
     
@@ -125,7 +74,7 @@ public class FoodList extends ArrayList<Food>{
         Collections.sort(this, new Comparator<Food>() {
             @Override
             public int compare(Food o1, Food o2) {
-                return (int) (o1.getExpiredDate().getTime() - o2.getExpiredDate().getTime());
+                return o2.getExpiredDate().compareTo(o1.getExpiredDate());
             }
         } );
         for (Food food : this) {

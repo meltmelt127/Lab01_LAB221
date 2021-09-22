@@ -6,7 +6,9 @@
 package foodmanagement;
 
 import data.FoodList;
-import method.Menu;
+import UI.Menu;
+import utils.FileUtils;
+import utils.InputUtils;
 
 /**
  *
@@ -21,6 +23,7 @@ public class FoodManagement {
         menu.addMenuItem();
         int userChoice;
         FoodList list = new FoodList();
+        FileUtils.addFromFile("foods.txt", list);
         do {
             menu.printMenu();
             userChoice = menu.getChoice("Choose option: ");
@@ -37,6 +40,8 @@ public class FoodManagement {
                 case 4:
                     list.printFood();
                     break;
+                case 5:
+                    FileUtils.saveToFile("foods.txt", list);
             }
         } while (userChoice != 5);
     }
