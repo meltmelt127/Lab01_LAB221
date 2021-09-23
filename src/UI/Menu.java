@@ -10,22 +10,25 @@ import java.util.Scanner;
 
 /**
  *
- * @author Admin
+ * @author MeltMelt
  */
-public class Menu extends ArrayList{
+public class Menu extends ArrayList {
+
     public void addMenuItem() {
-        this.add("Add a new food");
-        this.add("Search a food by name");
-        this.add("Remove the food by ID");
-        this.add("Print the food list in the descending order of expired date");
-        this.add("Quit");
+        this.add("Add a new food.");
+        this.add("Search a food by name.");
+        this.add("Remove the food by ID.");
+        this.add("Print the food list in the descending order of expired date.");
+        this.add("Save to file.");
+        this.add("Quit.");
     }
+
     public void printMenu() {
         for (int i = 0; i < this.size(); i++) {
             System.out.println((i + 1) + "- " + this.get(i));
         }
     }
-    
+
     public static int getChoice(String message) {
         int result = 0;
         Scanner sc = new Scanner(System.in);
@@ -33,11 +36,13 @@ public class Menu extends ArrayList{
             try {
                 System.out.print(message);
                 result = Integer.parseInt(sc.nextLine());
-                if (result > 0 && result < 6) 
+                if (result > 0 && result < 7) {
                     return result;
-                else System.out.println("Please input an integer from 1 to 5!");
+                } else {
+                    System.out.println("Please input an integer from 1 to 6!");
+                }
             } catch (NumberFormatException e) {
-                System.out.println("Please input an integer from 1 to 5!");
+                System.out.println("Please input an integer from 1 to 6!");
             }
         } while (true);
     }

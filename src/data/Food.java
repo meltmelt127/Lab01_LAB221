@@ -6,12 +6,14 @@
 package data;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
- * @author Admin
+ * @author MeltMelt
  */
 public class Food {
+
     private String id;
     private String name;
     private int weight;
@@ -78,12 +80,12 @@ public class Food {
     public void setExpiredDate(LocalDate expiredDate) {
         this.expiredDate = expiredDate;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         return this.id.equals(((Food) obj).getId());
     }
-    
+
     @Override
     public String toString() {
         return id + ", " + name + ", " + weight + ", " + type + ", " + place + ", " + expiredDate;

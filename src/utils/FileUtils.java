@@ -20,17 +20,17 @@ import java.util.StringTokenizer;
 
 /**
  *
- * @author Admin
+ * @author MeltMelt
  */
 public class FileUtils {
-    public static void addFromFile(String fName, FoodList list) {
-        File f;
-        FileReader fr= null;
+
+    public static FoodList readFoodListFromFile(String fName) {
+        File f = null;
+        FileReader fr = null;
         BufferedReader bf = null;
+        FoodList list = new FoodList();
         try {
             f = new File(fName);
-            if (!f.exists())
-                return;
             fr = new FileReader(f);
             bf = new BufferedReader(fr);
             String details;
@@ -38,7 +38,7 @@ public class FileUtils {
                 StringTokenizer stk = new StringTokenizer(details, ",");
                 String id = stk.nextToken().toUpperCase().trim();
                 String name = stk.nextToken().toUpperCase().trim();
-                int weight= Integer.parseInt(stk.nextToken().trim());
+                int weight = Integer.parseInt(stk.nextToken().trim());
                 String type = stk.nextToken().trim();
                 String place = stk.nextToken().trim();
                 LocalDate date = LocalDate.parse(stk.nextToken().trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -49,35 +49,42 @@ public class FileUtils {
             System.out.println(e);
         } finally {
             try {
-                if (bf != null)
+                if (bf != null) {
                     bf.close();
-                if (fr != null)
+                }
+                if (fr != null) {
                     fr.close();
+                }
             } catch (IOException e) {
                 System.out.println(e);
             }
         }
+        return list;
     }
-    
-    public static void saveToFile (String fName, FoodList list) {
-        File f;
-        FileWriter fw= null;
+
+    public static void saveToFile(String fName, FoodList list) {
+        File f = null;
+        FileWriter fw = null;
         PrintWriter pw = null;
         try {
             f = new File(fName);
             fw = new FileWriter(f);
             pw = new PrintWriter(fw);
-            for (Food food : list) 
+            for (Food food : list) {
                 pw.println(food.toString());
-            pw.close(); fw.close();
+            }
+            pw.close();
+            fw.close();
         } catch (IOException e) {
             System.out.println(e);
         } finally {
             try {
-                if (pw != null)
+                if (pw != null) {
                     pw.close();
-                if (fw != null)
+                }
+                if (fw != null) {
                     fw.close();
+                }
             } catch (IOException e) {
                 System.out.println(e);
             }

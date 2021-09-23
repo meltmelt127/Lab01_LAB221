@@ -11,9 +11,10 @@ import java.util.Scanner;
 
 /**
  *
- * @author Admin
+ * @author MeltMelt
  */
 public class InputUtils {
+
     public static boolean getBool(String message) {
         Scanner sc = new Scanner(System.in);
         String inputStr;
@@ -22,7 +23,7 @@ public class InputUtils {
         //input from user accept "Y"
         return inputStr.startsWith("Y");
     }
-    
+
     public static String getString(String message) {
         String result;
         Scanner sc = new Scanner(System.in);
@@ -34,8 +35,7 @@ public class InputUtils {
             }
         } while (true);
     }
-    
-   
+
     public static int getPositiveInteger(String message) {
         Scanner sc = new Scanner(System.in);
         int result;
@@ -43,23 +43,47 @@ public class InputUtils {
             try {
                 System.out.print(message);
                 result = Integer.parseInt(sc.nextLine());
-                if (result >= 0) 
+                if (result >= 0) {
                     return result;
+                }
                 System.out.println("Please input a positive integer!");
             } catch (NumberFormatException e) {
                 System.out.println("Please input a positive integer!");
             }
         } while (true);
     }
-    
+
     public static LocalDate getDate() {
         Scanner sc = new Scanner(System.in);
+        LocalDate date;
         do {
             try {
-                System.out.print("Input a date value (yyyy-mm-dd): ");
-                return LocalDate.parse(sc.nextLine().replace(" ", ""));
+                System.out.print("Input a date value (format: yyyy-mm-dd): ");
+                date = LocalDate.parse(sc.nextLine().replace(" ", ""));
+                if (date.compareTo(LocalDate.now()) < 0) {
+                    System.out.println("Do not input date of the past!");
+                } else {
+                    return date;
+                }
             } catch (DateTimeParseException e) {
-                System.out.println("Please input the correct format");
+                System.out.println("Please input the correct format!");
+            }
+        } while (true);
+    }
+
+    public static String getFileName(String message) {
+        Scanner sc = new Scanner(System.in);
+        String result;
+        do {
+            try {
+                System.out.print(message);
+                result = sc.nextLine();
+                if (!result.trim().isEmpty() && result.substring(result.length() - 4).equals(".txt")) {
+                    return result;
+                }
+                System.out.println("Please input the correct format!");
+            } catch (StringIndexOutOfBoundsException e) {
+                System.out.println("Please input the correct format!");
             }
         } while (true);
     }
